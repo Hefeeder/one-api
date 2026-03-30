@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { UserContext } from '../context/User';
 import { API, getLogo, showError, showInfo, showSuccess } from '../helpers';
-import { onGitHubOAuthClicked } from './utils';
+import { onGitHubOAuthClicked, onOIDCOAuthClicked } from './utils';
 import Turnstile from 'react-turnstile';
 import { Button, Card, Divider, Form, Icon, Layout, Modal } from '@douyinfe/semi-ui';
 import Title from '@douyinfe/semi-ui/lib/es/typography/title';
@@ -165,7 +165,7 @@ const LoginForm = () => {
                     忘记密码 <Link to="/reset">点击重置</Link>
                   </Text>
                 </div>
-                {status.github_oauth || status.wechat_login || status.telegram_oauth ? (
+                {status.github_oauth || status.oidc || status.wechat_login || status.telegram_oauth ? (
                   <>
                     <Divider margin="12px" align="center">
                       第三方登录
@@ -177,6 +177,17 @@ const LoginForm = () => {
                           icon={<IconGithubLogo />}
                           onClick={() => onGitHubOAuthClicked(status.github_client_id)}
                         />
+                      ) : (
+                        <></>
+                      )}
+                      {status.oidc ? (
+                        <Button
+                          type="primary"
+                          style={{ backgroundColor: '#0066cc', color: 'white', marginRight: '10px' }}
+                          onClick={onOIDCOAuthClicked}
+                        >
+                          OIDC 登录
+                        </Button>
                       ) : (
                         <></>
                       )}
